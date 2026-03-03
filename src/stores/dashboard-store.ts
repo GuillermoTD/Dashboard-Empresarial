@@ -70,9 +70,7 @@ export const useDashboardStore = create<DashboardState>()(
 
           try {
             // Simulación de API call
-            await new Promise((resolve) =>
-              setTimeout(resolve, 1000)
-            );
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
             // En un caso real, aquí iría la llamada a la API
             set({ metrics: initialMetrics, isLoading: false });
@@ -95,9 +93,7 @@ export const useDashboardStore = create<DashboardState>()(
 
           try {
             // Simulación de API call
-            await new Promise((resolve) =>
-              setTimeout(resolve, 1000)
-            );
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
             // En un caso real, aquí iría la llamada a la API
             set({ chartData: null, isLoading: false });
@@ -115,7 +111,24 @@ export const useDashboardStore = create<DashboardState>()(
       }),
       {
         name: "dashboard-storage", // requerido para persist
-      }
-    )
-  )
+      },
+    ),
+  ),
 );
+
+// Funciones auxiliares para datos mock
+export function generateLabels(timeRange: TimeRange): string[] {
+  const ranges = {
+    "24h": Array.from({ length: 24 }, (_, i) => `${i}h`),
+    "7d": ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+    "30d": Array.from({ length: 30 }, (_, i) => `${i + 1}`),
+    "90d": Array.from({ length: 12 }, (_, i) => `Sem ${i + 1}`),
+  };
+
+  return ranges[timeRange];
+}
+
+export function generateRandomData(timeRange: TimeRange): number[] {
+  const length = generateLabels(timeRange).length;
+  return Array.from({ length }, () => Math.floor(Math.random() * 1000) + 500);
+}
